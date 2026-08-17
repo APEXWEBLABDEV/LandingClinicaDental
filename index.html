@@ -1,174 +1,337 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sonrisa Perfecta | Clínica Dental en Maracaibo</title>
-    
-    <!-- Tailwind CSS (CDN) -->
+    <title>Clínica Dental OdontoSalud | Odontología Avanzada y Estética</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Configuración de colores personalizados -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              clinica: {
-                claro: '#e0f2fe',
-                primario: '#0284c7',
-                oscuro: '#0c4a6e',
-              }
-            }
-          }
-        }
-      }
-    </script>
     <style>
-        /* Regla para el desplazamiento suave */
-        html { scroll-behavior: smooth; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <header class="bg-white shadow-md fixed w-full top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Logotipo -->
-            <div class="text-2xl font-bold text-clinica-primario">
-                🦷 Sonrisa<span class="text-clinica-oscuro">Perfecta</span>
+    <!-- CONFIGURACIÓN DE WHATSAPP -->
+    <script>
+        const TELEFONO_WHATSAPP = "1234567890"; // Reemplaza con el número real de la clínica (con código de país)
+
+        function abrirWhatsAppDirecto(mensajeExtra) {
+            const texto = encodeURIComponent(mensajeExtra || "Hola, me gustaría agendar mi Primera Cita Diagnóstica Gratuita.");
+            window.location.href = `https://wa.me/${TELEFONO_WHATSAPP}?text=${texto}`;
+        }
+
+        function agendarPorWhatsApp(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const servicio = document.getElementById('servicio').value;
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
+
+            const mensaje = `Hola, me gustaría agendar una valoración médica:\n\n` +
+                            `👤 *Paciente:* ${nombre}\n` +
+                            `🦷 *Especialidad:* ${servicio}\n` +
+                            `📅 *Fecha sugerida:* ${fecha}\n` +
+                            `⏰ *Hora sugerida:* ${hora}`;
+
+            abrirWhatsAppDirecto(mensaje);
+        }
+    </script>
+
+    <!-- BARRA SUPERIOR INFORMATIVA -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <span>📍 Av. Principal N° 102, Sede Central</span>
+                <span class="hidden md:inline">|</span>
+                <span class="hidden md:inline">⏱️ Lunes a Viernes: 8:00 - 20:00 hs</span>
             </div>
+            <div class="flex items-center gap-2 text-blue-400 font-semibold">
+                <span>📞 Atención Directa: +123 456 7890</span>
+            </div>
+        </div>
+    </div>
 
-            <!-- Menú para Escritorio -->
-            <nav class="hidden md:flex space-x-6">
-                <a href="#servicios" class="hover:text-clinica-primario font-semibold transition">Servicios</a>
-                <a href="#contacto" class="hover:text-clinica-primario font-semibold transition">Contacto</a>
+    <!-- NAVBAR NAVEGACIÓN -->
+    <header class="sticky top-0 bg-white/95 backdrop-blur-md z-50 border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <!-- LOGOTIPO -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-xl font-black shadow-md shadow-blue-500/20">
+                    ✚
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900 block leading-tight">ODONTO<span class="text-blue-600">SALUD</span></span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider uppercase block">Clínica Dental Avanzada</span>
+                </div>
+            </a>
+
+            <!-- MENÚ -->
+            <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-wider text-slate-600">
+                <a href="#especialidades" class="hover:text-blue-600 transition-colors">Especialidades</a>
+                <a href="#ventajas" class="hover:text-blue-600 transition-colors">Por qué elegirnos</a>
+                <a href="#testimonios" class="hover:text-blue-600 transition-colors">Pacientes</a>
+                <a href="#reservas" class="hover:text-blue-600 transition-colors">Pedir Cita</a>
             </nav>
 
-            <!-- Botón de Escritorio -->
-            <a href="https://wa.me/584140000000" target="_blank" class="hidden md:block bg-clinica-primario text-white px-5 py-2 rounded-full font-bold hover:bg-clinica-oscuro transition">
-                Agendar Cita
-            </a>
-
-            <!-- BOTÓN HAMBURGUESA PARA MÓVILES -->
-            <button id="btn-menu" class="md:hidden text-gray-600 hover:text-clinica-primario focus:outline-none">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
+            <button type="button" onclick="abrirWhatsAppDirecto('Hola, quisiera información sobre la Primera Consulta Gratuita.')" class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg shadow-blue-600/20 transition-all flex items-center gap-2">
+                💬 Solicitar Cita
             </button>
-        </div>
-
-        <!-- MENÚ DESPLEGABLE MÓVIL -->
-        <div id="menu-movil" class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg">
-            <a href="#servicios" class="block py-3 px-4 text-gray-700 font-semibold hover:bg-clinica-claro border-b border-gray-50">Servicios</a>
-            <a href="#contacto" class="block py-3 px-4 text-gray-700 font-semibold hover:bg-clinica-claro border-b border-gray-50">Contacto</a>
-            <a href="https://wa.me/584140000000" target="_blank" class="block py-3 px-4 text-clinica-primario font-bold bg-clinica-claro text-center">
-                ¡Agendar Cita Ahora!
-            </a>
         </div>
     </header>
 
-    <!-- HERO SECTION (Portada) -->
-    <section class="bg-clinica-claro pt-28 pb-16 px-4">
-        <div class="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-8">
-            <!-- Textos -->
-            <div class="md:w-1/2 text-center md:text-left">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-clinica-oscuro leading-tight mb-4">
-                    Vuelve a sonreír con confianza hoy mismo.
-                </h1>
-                <p class="text-lg text-gray-600 mb-6">
-                    Odontología indolora, tecnología avanzada y especialistas listos para atenderte en el corazón de Maracaibo.
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-                    <a href="https://wa.me/584140000000?text=Hola,%20quiero%20una%20valoración%20gratuita" target="_blank" class="bg-green-500 text-white text-center px-6 py-3 rounded-lg font-bold text-lg hover:bg-green-600 transition shadow-lg flex items-center justify-center gap-2">
-                        <span>📲</span> Chat por WhatsApp
-                    </a>
+    <!-- HERO SECTION (ESTILO FERRUS & BRATOS: ENFOQUE EN PRIMERA VISITA Y DIAGNÓSTICO) -->
+    <section class="relative bg-gradient-to-b from-blue-50/60 via-white to-slate-50 pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- COLUMNA TEXTO -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-200 mb-6">
+                        ✨ Tu Primera Consulta Diagnóstica con Especialista
+                    </span>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+                        Especialistas en transformar tu sonrisa con <span class="text-blue-600">tecnología digital</span>
+                    </h1>
+
+                    <p class="mt-6 text-slate-600 text-base sm:text-lg max-w-2xl leading-relaxed">
+                        En OdontoSalud combinamos diagnóstico 3D de alta precisión, sedación consciente y atención por el mismo odontólogo especialista durante todo tu tratamiento.
+                    </p>
+
+                    <!-- PUNTOS DE VALOR -->
+                    <div class="mt-8 grid sm:grid-cols-2 gap-3 text-left max-w-xl mx-auto lg:mx-0">
+                        <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
+                            <span class="text-emerald-500 font-bold">✓</span> Primera visita diagnóstica completa
+                        </div>
+                        <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
+                            <span class="text-emerald-500 font-bold">✓</span> Ortodoncia invisible y estética
+                        </div>
+                        <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
+                            <span class="text-emerald-500 font-bold">✓</span> Implantes con tecnología 3D
+                        </div>
+                        <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700">
+                            <span class="text-emerald-500 font-bold">✓</span> Financiación a tu medida
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                        <a href="#reservas" class="px-7 py-4 text-xs font-extrabold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-xl shadow-blue-600/25 transition-all text-center">
+                            Reservar Valoración Diagnóstica
+                        </a>
+                        <button type="button" onclick="abrirWhatsAppDirecto('Hola, quiero consultar la disponibilidad para esta semana.')" class="px-7 py-4 text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 rounded-xl transition-all text-center flex items-center justify-center gap-2">
+                            💬 Consultar por WhatsApp
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <!-- Imagen -->
-            <div class="md:w-1/2">
-                <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Paciente sonriendo en clínica dental" class="rounded-2xl shadow-xl w-full object-cover border-4 border-white h-[400px]">
+
+                <!-- COLUMNA TARJETA DE RELEVANCIA / IMAGEN -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl relative">
+                        <div class="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
+                            <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 text-2xl font-bold">
+                                👨‍⚕️
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-slate-900">Dr. Alejandro Ferrus</h3>
+                                <p class="text-xs text-slate-500 font-medium">Director Médico & Cirujano Implantólogo</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider block mb-1">¿Qué incluye tu 1ª Consulta?</span>
+                                <ul class="text-xs text-slate-600 space-y-1">
+                                    <li>• Exploración bucodental completa</li>
+                                    <li>• Radiografía y Escáner 3D Digital</li>
+                                    <li>• Diagnóstico detallado con presupuesto cerrado</li>
+                                </ul>
+                            </div>
+
+                            <div class="flex items-center justify-between text-xs text-slate-500 px-1 pt-2">
+                                <span>⭐ 4.9/5 valoración en Google</span>
+                                <span class="font-bold text-slate-800">+2,500 Pacientes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- SECCIÓN DE SERVICIOS -->
-    <section id="servicios" class="py-20 px-4 bg-white">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-clinica-oscuro mb-4">Nuestros Tratamientos</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Soluciones dentales con tecnología de punta y atención personalizada.</p>
+    <!-- TRATAMIENTOS ESPECIALIZADOS -->
+    <section id="especialidades" class="py-20 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3">Odontología Multidisciplinar</h2>
+                <p class="text-3xl font-extrabold text-slate-900">Tratamientos Odontológicos Avanzados</p>
+                <p class="text-slate-500 text-sm mt-3">Sustentados en planificación digital previa para garantizar máxima precisión y mínima molestia.</p>
             </div>
-            <!-- Grid de Servicios -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Tarjeta 1 -->
-                <div class="bg-gray-50 rounded-2xl p-8 shadow-sm hover:shadow-lg transition text-center border border-gray-100">
-                    <div class="text-5xl mb-4">✨</div>
-                    <h3 class="text-xl font-bold text-clinica-oscuro mb-3">Limpieza Profunda</h3>
-                    <p class="text-gray-600 mb-6">Eliminación de sarro y placa bacteriana con ultrasonido indoloro.</p>
-                    <a href="https://wa.me/584140000000" target="_blank" class="text-clinica-primario font-semibold hover:underline">Consultar precio &rarr;</a>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- TARJETA 1 -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-8 hover:border-blue-500 transition-all hover:shadow-lg flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center text-2xl mb-6">
+                            🦷
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Ortodoncia Invisible</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Alineadores transparentes cómodos y removibles. Corregimos la posición de tus dientes sin brackets metálicos.
+                        </p>
+                    </div>
+                    <button type="button" onclick="abrirWhatsAppDirecto('Hola, me interesa información sobre Ortodoncia Invisible.')" class="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                        Saber más &rarr;
+                    </button>
                 </div>
-                <!-- Tarjeta 2 -->
-                <div class="bg-gray-50 rounded-2xl p-8 shadow-sm hover:shadow-lg transition text-center border border-gray-100">
-                    <div class="text-5xl mb-4">🦷</div>
-                    <h3 class="text-xl font-bold text-clinica-oscuro mb-3">Ortodoncia Invisible</h3>
-                    <p class="text-gray-600 mb-6">Alinea tu sonrisa sin brackets metálicos. Tratamiento estético y rápido.</p>
-                    <a href="https://wa.me/584140000000" target="_blank" class="text-clinica-primario font-semibold hover:underline">Consultar precio &rarr;</a>
+
+                <!-- TARJETA 2 -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-8 hover:border-blue-500 transition-all hover:shadow-lg flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center text-2xl mb-6">
+                            ✨
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Estética & Carillas Dental</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Diseño digital de sonrisa y carillas de porcelana ultra-finas para corregir color, forma y alineación.
+                        </p>
+                    </div>
+                    <button type="button" onclick="abrirWhatsAppDirecto('Hola, me interesa información sobre Estética Dental y Carillas.')" class="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                        Saber más &rarr;
+                    </button>
                 </div>
-                <!-- Tarjeta 3 -->
-                <div class="bg-gray-50 rounded-2xl p-8 shadow-sm hover:shadow-lg transition text-center border border-gray-100">
-                    <div class="text-5xl mb-4">💎</div>
-                    <h3 class="text-xl font-bold text-clinica-oscuro mb-3">Blanqueamiento</h3>
-                    <p class="text-gray-600 mb-6">Aclara hasta 4 tonos en una sola sesión. Sonrisa radiante y natural.</p>
-                    <a href="https://wa.me/584140000000" target="_blank" class="text-clinica-primario font-semibold hover:underline">Consultar precio &rarr;</a>
+
+                <!-- TARJETA 3 -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-8 hover:border-blue-500 transition-all hover:shadow-lg flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/10 text-blue-600 flex items-center justify-center text-2xl mb-6">
+                            🔬
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Implantes Guiados 3D</h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
+                            Rehabilitación completa mediante cirugía guiada por ordenador de forma mínimamente invasiva y rápida recuperación.
+                        </p>
+                    </div>
+                    <button type="button" onclick="abrirWhatsAppDirecto('Hola, me interesa información sobre Implantes Dentales.')" class="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                        Saber más &rarr;
+                    </button>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- POR QUÉ ELEGIRNOS (PUNTOS CLAVE FERRUS & BRATOS) -->
+    <section id="ventajas" class="py-20 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-3">Excelencia Médica</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">Por qué los pacientes confían su sonrisa en nosotros</h2>
+                    <p class="text-slate-400 text-sm mt-4 leading-relaxed">
+                        No somos una franquicia dental. Somos un centro especializado donde prima la honestidad médica, la tecnología y el trato humano personalizado.
+                    </p>
+
+                    <div class="mt-8 space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-600/20 text-blue-400 font-bold flex items-center justify-center shrink-0">1</div>
+                            <div>
+                                <h4 class="text-base font-bold text-white">Siempre el mismo equipo doctor</h4>
+                                <p class="text-xs text-slate-400 mt-1">Te atenderá siempre el especialista asignado a tu tratamiento desde el inicio hasta la alta definitiva.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-600/20 text-blue-400 font-bold flex items-center justify-center shrink-0">2</div>
+                            <div>
+                                <h4 class="text-base font-bold text-white">Sedación Consciente & Cero Dolor</h4>
+                                <p class="text-xs text-slate-400 mt-1">Disponemos de técnicas para pacientes con ansiedad o miedo al dentista, haciendo que el tratamiento sea relajado.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-600/20 text-blue-400 font-bold flex items-center justify-center shrink-0">3</div>
+                            <div>
+                                <h4 class="text-base font-bold text-white">Financiación Flexible Sin Intereses</h4>
+                                <p class="text-xs text-slate-400 mt-1">Planes de pago personalizados adaptados a las posibilidades de cada paciente.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 p-8 rounded-3xl">
+                    <h3 class="text-xl font-bold mb-4">¿Llevas tiempo sin acudir al dentista?</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-6">
+                        Entendemos perfectamente tus dudas. Lo importante no es el tiempo que ha pasado, sino decidir cuidar tu salud oral a partir de hoy en un entorno cómodo y transparente.
+                    </p>
+                    <button type="button" onclick="abrirWhatsAppDirecto('Hola, me gustaría agendar una cita de revisión sin compromiso.')" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 font-bold text-xs uppercase tracking-wider rounded-xl transition-colors">
+                        Solicitar Revisión Sin Compromiso
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULARIO DE RESERVA / CITA DIRECTA -->
+    <section id="reservas" class="py-20 bg-slate-50">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-2">Reserva Directa</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Agendar Cita Diagnóstica</h2>
+                    <p class="text-xs text-slate-500 mt-2">Completa tus datos y se enviará la solicitud confirmada a nuestro WhatsApp médico.</p>
+                </div>
+
+                <form onsubmit="agendarPorWhatsApp(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre y Apellido del Paciente</label>
+                        <input type="text" id="nombre" required placeholder="Ej: Maria García" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-blue-600">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Tratamiento de Interés</label>
+                        <select id="servicio" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-blue-600">
+                            <option>Primera Visita Diagnóstica Gratuita</option>
+                            <option>Ortodoncia Invisible (Invisalign)</option>
+                            <option>Implantes Dentales / Cirugía 3D</option>
+                            <option>Estética Dental / Carillas</option>
+                            <option>Limpieza / Revisión General</option>
+                        </select>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Fecha Preferida</label>
+                            <input type="date" id="fecha" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-blue-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Horario Preferido</label>
+                            <input type="time" id="hora" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-blue-600">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 mt-4">
+                        💬 Enviar Solicitud de Cita por WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <button type="button" onclick="abrirWhatsAppDirecto('Hola, quisiera realizar una consulta rápida con recepción.')" class="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-400 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl transition-transform hover:scale-110 active:scale-95">
+        💬
+    </button>
 
     <!-- FOOTER -->
-    <footer id="contacto" class="bg-clinica-oscuro text-white py-12">
-        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 text-center md:text-left">
-            <div>
-                <h4 class="text-2xl font-bold mb-4">SonrisaPerfecta</h4>
-                <p class="text-gray-300">Transformando sonrisas en Maracaibo, Zulia.</p>
-            </div>
-            <div>
-                <h4 class="text-xl font-bold mb-4">Ubicación y Horarios</h4>
-                <p class="text-gray-300">📍 Av. 5 de Julio</p>
-                <p class="text-gray-300">🕒 Lunes a Viernes: 8:00 AM - 5:00 PM</p>
-                <p class="text-gray-300">📞 +58 414-000-0000</p>
-            </div>
-        </div>
-        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
-            &copy; 2026 Sonrisa Perfecta Clínica Dental. Desarrollado con pasión.
+    <footer class="py-10 bg-slate-900 text-slate-400 text-xs border-t border-slate-800 text-center">
+        <div class="max-w-7xl mx-auto px-4 space-y-4">
+            <p class="font-bold text-slate-300">CLÍNICA DENTAL ODONTOSALUD | CENTRO DE ODONTOLOGÍA AVANZADA</p>
+            <p>Atención con Cita Previa. Todos los derechos reservados &copy; 2026.</p>
         </div>
     </footer>
 
-    <!-- BOTÓN FLOTANTE WHATSAPP -->
-    <a href="https://wa.me/584140000000" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center">
-        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-        </svg>
-    </a>
-
-    <!-- SCRIPT JAVASCRIPT: Menú Móvil y control de enlaces -->
-    <script>
-        const btnMenu = document.getElementById('btn-menu');
-        const menuMovil = document.getElementById('menu-movil');
-        const enlacesMenu = menuMovil.querySelectorAll('a');
-
-        // Abrir/cerrar menú al tocar el botón hamburguesa
-        btnMenu.addEventListener('click', () => {
-            menuMovil.classList.toggle('hidden');
-        });
-
-        // Cerrar el menú automáticamente cuando se hace clic en un enlace (útil en móviles)
-        enlacesMenu.forEach(enlace => {
-            enlace.addEventListener('click', () => {
-                menuMovil.classList.add('hidden');
-            });
-        });
-    </script>
 </body>
 </html>
